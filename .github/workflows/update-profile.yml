@@ -43,15 +43,25 @@ jobs:
         id: commit
         shell: bash
         run: |
-          git add -- README.md assets/neofetch.svg assets/neofetch-mobile.svg assets/neofetch-still.svg assets/neofetch-mobile-still.svg assets/stats.json
-          if git diff --cached --quiet; then
-            echo 'changed=false' >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+          initial_commit="$(git rev-parse HEAD)"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'Update public profile card'
-          echo 'changed=true' >> "$GITHUB_OUTPUT"
+          git add -- assets/neofetch.svg assets/neofetch-mobile.svg assets/neofetch-still.svg assets/neofetch-mobile-still.svg assets/stats.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update public profile assets'
+            python scripts/update_profile.py --pin-images-to "$(git rev-parse HEAD)"
+          elif grep -q '/main/assets/neofetch' README.md; then
+            python scripts/update_profile.py --pin-images-to "$(git rev-parse HEAD)"
+          fi
+          git add -- README.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'Point profile to current immutable assets'
+          fi
+          if [ "$(git rev-parse HEAD)" = "$initial_commit" ]; then
+            echo 'changed=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'changed=true' >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Push generated files
         if: steps.commit.outputs.changed == 'true'

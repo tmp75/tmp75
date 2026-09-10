@@ -26,4 +26,4 @@ O segredo evita guardar a data de nascimento no código, mas a idade exata publi
 
 O retrato usa animação CSS dentro do SVG, sem JavaScript nem recursos externos. `scripts/matrix_portrait.py` mantém o ASCII visível e faz a chuva de código brilhar mais sobre a figura. A preferência do sistema por movimento reduzido mostra a versão parada. As cores dos dados são definidas no início de `scripts/update_profile.py`.
 
-O uptime e as estatísticas mudam após cada atualização do workflow. As referências das imagens incluem uma versão calculada a partir do conteúdo para evitar mostrar uma imagem antiga em cache. O agendamento do GitHub Actions pode sofrer atrasos; a execução manual permite atualizar quando necessário.
+O uptime e as estatísticas mudam após cada atualização do workflow. O Actions grava primeiro os SVGs e depois aponta o README para o commit exato desses ficheiros, evitando o cache da branch principal. Quando os SVGs não mudam, mantém a referência existente. O agendamento do GitHub Actions pode sofrer atrasos; a execução manual permite atualizar quando necessário.

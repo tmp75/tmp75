@@ -7,6 +7,7 @@ from datetime import date, datetime, timezone
 from html import escape
 import json
 import os
+import re
 from pathlib import Path
 from urllib.request import Request, urlopen
 from matrix_portrait import render_matrix_portrait
@@ -150,14 +151,13 @@ def build_svg(config, stats, rows, avatar, mobile=False, tones=None, animated=Tr
     return '\n'.join(chunks)+'\n'
 
 
-def build_readme(config, rows, versions=None):
+def build_readme(config, rows, versions=None, image_ref='main'):
     versions = versions or {}
     desktop_version = versions.get('desktop', '')
     mobile_version = versions.get('mobile', '')
     desktop_still_version = versions.get('desktop_still', '')
     mobile_still_version = versions.get('mobile_still', '')
-    # /github.com/.../raw redirects discard query strings; use the raw host directly.
-    image_base = f'https://raw.githubusercontent.com/{config["username"]}/{config["username"]}/main/assets'
+    image_base = f'https://raw.githubusercontent.com/{config["username"]}/{config["username"]}/{image_ref}/assets'
     alt = '; '.join(f'{key}: {value}' for kind, key, value in rows if kind == 'field')
     links = ' · '.join(f'[{label}]({url})' for label, url in config.get('links', []))
     plain = '\n'.join(f'{key}: {value}' if value else key for kind, key, value in rows if kind not in ('rule', 'blank'))
@@ -186,8 +186,24 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--refresh', action='store_true', help='Fetch current public GitHub stats')
     parser.add_argument('--date', help='Date override (YYYY-MM-DD) for deterministic previews')
+    parser.add_argument('--pin-images-to', help='Pin existing README image URLs to a published asset commit (40 hex characters)')
     args = parser.parse_args()
     config = json.loads((ROOT/'profile.json').read_text(encoding='utf-8'))
+    readme_path = ROOT/'README.md'
+    previous_readme = readme_path.read_text(encoding='utf-8') if readme_path.exists() else ''
+    image_prefix = f'https://raw.githubusercontent.com/{config["username"]}/{config["username"]}/'
+    if args.pin_images_to:
+        if not re.fullmatch(r'[0-9a-f]{40}', args.pin_images_to):
+            raise ValueError('--pin-images-to requires a full commit SHA.')
+        pinned, count = re.subn(re.escape(image_prefix) + r'(?:main|[0-9a-f]{40})(/assets/neofetch(?:-mobile)?(?:-still)?\.svg\?v=[0-9a-f]{12})',
+                               lambda match: image_prefix + args.pin_images_to + match.group(1), previous_readme)
+        if count != 4:
+            raise ValueError('Expected four generated image URLs in README.')
+        readme_path.write_text(pinned, encoding='utf-8', newline='\n')
+        print('Pinned all four image URLs to the asset commit.')
+        return
+    prior_ref = re.search(re.escape(image_prefix) + r'([0-9a-f]{40})/assets/', previous_readme)
+    image_ref = prior_ref.group(1) if prior_ref else 'main'
     stats_path = ROOT/'assets/stats.json'
     stats = fetch_stats(config['username']) if args.refresh else json.loads(stats_path.read_text(encoding='utf-8'))
     today = date.fromisoformat(args.date) if args.date else datetime.now(timezone.utc).date()
@@ -211,7 +227,7 @@ def main():
         'assets/neofetch-mobile.svg': mobile_svg,
         'assets/neofetch-still.svg': desktop_still,
         'assets/neofetch-mobile-still.svg': mobile_still,
-        'README.md': build_readme(config, rows, versions),
+        'README.md': build_readme(config, rows, versions, image_ref),
         'assets/stats.json': json.dumps(stats, indent=2, ensure_ascii=False)+'\n',
     }
     for name, content in outputs.items():
