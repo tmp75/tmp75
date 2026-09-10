@@ -9,12 +9,13 @@ import json
 import os
 from pathlib import Path
 from urllib.request import Request, urlopen
+from matrix_portrait import render_matrix_portrait
 
 ROOT = Path(__file__).resolve().parents[1]
-BG = '#161b22'
-FG = '#b7c7d9'
-KEY = '#c99c6b'
-DIM = '#687483'
+BG = '#020805'
+FG = '#92f5b4'
+KEY = '#39ff88'
+DIM = '#3b985c'
 FONT = "Consolas, 'Liberation Mono', Menlo, monospace"
 
 
@@ -94,7 +95,7 @@ def text(x, y, value, size=16, fill=FG, **attrs):
             f'{escape(str(value))}</text>')
 
 
-def build_svg(config, stats, rows, avatar, mobile=False, tones=None):
+def build_svg(config, stats, rows, avatar, mobile=False, tones=None, animated=True):
     width = 360 if mobile else 1120
     x = 20 if mobile else 518
     right = width - (20 if mobile else 28)
@@ -103,51 +104,30 @@ def build_svg(config, stats, rows, avatar, mobile=False, tones=None):
     start_y = 382 if mobile else 30
     line = 24
     height = start_y + len(rows) * line + 65
-    title = f'{config["display_name"]} — perfil de terminal'
-    description = '; '.join(f'{key}: {value}' for kind, key, value in rows if kind == 'field')
+    title = f'{config["display_name"]} — terminal Matrix'
+    description = 'Avatar em código verde com chuva Matrix. ' + '; '.join(f'{key}: {value}' for kind, key, value in rows if kind == 'field')
     chunks = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
               f'<title id="title">{escape(title)}</title>',
               f'<desc id="desc">{escape(description)}</desc>',
               f'<rect width="{width}" height="{height}" fill="{BG}"/>',
               f'<g font-family="{FONT}" xml:space="preserve">']
-    columns = max(len(row) for row in avatar)
     avatar_width = 320 if mobile else 448
-    avatar_char = avatar_width / columns
-    avatar_size = avatar_char / .6
     avatar_x = 20 if mobile else 29
-    avatar_line = avatar_width / len(avatar)
     avatar_top = 20 if mobile else max(20, (height-avatar_width)/2)
-    avatar_y = avatar_top + avatar_size
-    for index, row in enumerate(avatar):
-        y = round(avatar_y + index*avatar_line, 2)
-        if tones is None:
-            chunks.append(text(avatar_x, y, row, avatar_size, '#aebbc9',
-                               textLength=len(row)*avatar_char, lengthAdjust='spacingAndGlyphs'))
-            continue
-        # Equal-tone runs keep the SVG compact while preserving every source cell.
-        levels = [min(255, round(value/8)*8) for value in tones[index]]
-        start = 0
-        while start < len(row):
-            end = start + 1
-            while end < len(row) and levels[end] == levels[start]:
-                end += 1
-            gray = levels[start]
-            chunks.append(text(round(avatar_x + start*avatar_char, 3), y,
-                               row[start:end], avatar_size, f'rgb({gray},{gray},{gray})',
-                               textLength=(end-start)*avatar_char, lengthAdjust='spacingAndGlyphs'))
-            start = end
+    chunks.append(render_matrix_portrait(avatar, tones, avatar_x, avatar_top,
+                                         avatar_width, avatar_width, animated=animated))
     for index, (kind, key, value) in enumerate(rows):
         y = start_y + index * line
         if kind == 'blank':
             continue
         if kind == 'header':
-            chunks.append(text(x, y, key, font_size, '#d3dce6', font_weight='700'))
+            chunks.append(text(x, y, key, font_size, '#c8ffdc', font_weight='700'))
         elif kind == 'rule':
-            chunks.append(f'<path d="M{x} {y-8}H{right}" stroke="#46515e"/>')
+            chunks.append(f'<path d="M{x} {y-8}H{right}" stroke="#17512b"/>')
         elif kind == 'section':
-            chunks.append(text(x, y, key, font_size, '#c6ced8'))
+            chunks.append(text(x, y, key, font_size, '#63f59a'))
             rule_start = x + (len(key)+2)*char
-            chunks.append(f'<path d="M{rule_start} {y-5}H{right}" stroke="#46515e"/>')
+            chunks.append(f'<path d="M{rule_start} {y-5}H{right}" stroke="#17512b"/>')
         else:
             # Shrink a long row, preserving column separation and avoiding clipping.
             available_chars = (right-x) / char
@@ -159,10 +139,10 @@ def build_svg(config, stats, rows, avatar, mobile=False, tones=None):
             dot_count = max(0, int((value_x-dots_x)/actual_char)-1)
             chunks.append(text(x, y, key+':', actual_size, KEY))
             if dot_count:
-                chunks.append(text(dots_x, y, '.'*dot_count, actual_size, '#455160'))
+                chunks.append(text(dots_x, y, '.'*dot_count, actual_size, '#195330'))
             chunks.append(text(right, y, value, actual_size, FG, text_anchor='end'))
     palette_y = start_y + len(rows)*line + 7
-    colors = ['#414b57','#b87f79','#a6b68d','#c9ae7d','#89aace','#b29fbe','#87b6bc','#c9d2dc']
+    colors = ['#063d1d','#08652c','#089f41','#11ca58','#39ff88','#6effa2','#92f5b4','#c8ffdc']
     for index, color in enumerate(colors):
         chunks.append(f'<rect x="{x+index*25}" y="{palette_y}" width="25" height="15" fill="{color}"/>')
     chunks.append(text(x, palette_y+36, 'sync ' + stats['as_of'] + ' UTC', 10, DIM))
@@ -174,6 +154,8 @@ def build_readme(config, rows, versions=None):
     versions = versions or {}
     desktop_version = versions.get('desktop', '')
     mobile_version = versions.get('mobile', '')
+    desktop_still_version = versions.get('desktop_still', '')
+    mobile_still_version = versions.get('mobile_still', '')
     # /github.com/.../raw redirects discard query strings; use the raw host directly.
     image_base = f'https://raw.githubusercontent.com/{config["username"]}/{config["username"]}/main/assets'
     alt = '; '.join(f'{key}: {value}' for kind, key, value in rows if kind == 'field')
@@ -181,8 +163,10 @@ def build_readme(config, rows, versions=None):
     plain = '\n'.join(f'{key}: {value}' if value else key for kind, key, value in rows if kind not in ('rule', 'blank'))
     return f'''<!-- Generated by scripts/update_profile.py. Edit profile.json to customize. -->
 <picture>
+  <source media="(prefers-reduced-motion: reduce) and (max-width: 600px)" srcset="{image_base}/neofetch-mobile-still.svg?v={mobile_still_version}">
+  <source media="(prefers-reduced-motion: reduce)" srcset="{image_base}/neofetch-still.svg?v={desktop_still_version}">
   <source media="(max-width: 600px)" srcset="{image_base}/neofetch-mobile.svg?v={mobile_version}">
-  <img src="{image_base}/neofetch.svg?v={desktop_version}" width="1120" alt="{escape(config['display_name'] + ' — ' + alt, quote=True)}">
+  <img src="{image_base}/neofetch.svg?v={desktop_version}" width="1120" alt="{escape(config['display_name'] + ' — avatar em código Matrix; ' + alt, quote=True)}">
 </picture>
 
 {links}
@@ -217,17 +201,22 @@ def main():
     # Build everything before replacing files: API/config errors leave prior assets intact.
     desktop_svg = build_svg(config, stats, rows, avatar, tones=tones)
     mobile_svg = build_svg(config, stats, rows, avatar, mobile=True, tones=tones)
+    desktop_still = build_svg(config, stats, rows, avatar, tones=tones, animated=False)
+    mobile_still = build_svg(config, stats, rows, avatar, mobile=True, tones=tones, animated=False)
     versions = {key: hashlib.sha256(svg.encode('utf-8')).hexdigest()[:12]
-                for key, svg in [('desktop', desktop_svg), ('mobile', mobile_svg)]}
+                for key, svg in [('desktop', desktop_svg), ('mobile', mobile_svg),
+                                 ('desktop_still', desktop_still), ('mobile_still', mobile_still)]}
     outputs = {
         'assets/neofetch.svg': desktop_svg,
         'assets/neofetch-mobile.svg': mobile_svg,
+        'assets/neofetch-still.svg': desktop_still,
+        'assets/neofetch-mobile-still.svg': mobile_still,
         'README.md': build_readme(config, rows, versions),
         'assets/stats.json': json.dumps(stats, indent=2, ensure_ascii=False)+'\n',
     }
     for name, content in outputs.items():
         (ROOT/name).write_text(content, encoding='utf-8', newline='\n')
-    print('Updated desktop/mobile SVGs, README and public stats.')
+    print('Updated animated/still desktop/mobile SVGs, README and public stats.')
 
 
 if __name__ == '__main__':

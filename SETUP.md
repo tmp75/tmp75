@@ -16,7 +16,7 @@ Para gerar os ficheiros localmente, com Python 3.12:
 python scripts/update_profile.py --refresh
 ```
 
-Não são necessárias bibliotecas adicionais. O Actions usa o `GITHUB_TOKEN` temporário para consultar a API do GitHub e enviar o commit, evitando o limite reduzido das consultas anónimas. O script consulta os endpoints públicos e exclui explicitamente repositórios privados das estatísticas; não guarda o token. Localmente, funciona sem token, dentro do limite de consultas anónimas. O workflow guarda apenas o README, os dois SVGs e `assets/stats.json`, quando houver alterações. Se outro commit chegar antes do envio, o Git recusa sobrescrevê-lo; execute novamente o workflow.
+Não são necessárias bibliotecas adicionais. O Actions usa o `GITHUB_TOKEN` temporário para consultar a API do GitHub e enviar o commit, evitando o limite reduzido das consultas anónimas. O script consulta os endpoints públicos e exclui explicitamente repositórios privados das estatísticas; não guarda o token. Localmente, funciona sem token, dentro do limite de consultas anónimas. O workflow guarda apenas o README, os quatro SVGs e `assets/stats.json`, quando houver alterações. Se outro commit chegar antes do envio, o Git recusa sobrescrevê-lo; execute novamente o workflow.
 
 ## Uptime
 
@@ -24,4 +24,6 @@ Sem data de nascimento, o uptime representa o tempo desde a criação da conta G
 
 O segredo evita guardar a data de nascimento no código, mas a idade exata publicada permite deduzi-la. Deixe este campo vazio se preferir apresentar apenas a idade da conta.
 
-Os ficheiros gerados são imagens estáticas: o uptime e as estatísticas mudam após cada atualização. As referências das imagens incluem uma versão calculada a partir do conteúdo para evitar mostrar uma imagem antiga em cache. O agendamento do GitHub Actions pode sofrer atrasos; a execução manual permite atualizar quando necessário.
+O retrato usa animação CSS dentro do SVG, sem JavaScript nem recursos externos. `scripts/matrix_portrait.py` mantém o ASCII visível e faz a chuva de código brilhar mais sobre a figura. A preferência do sistema por movimento reduzido mostra a versão parada. As cores dos dados são definidas no início de `scripts/update_profile.py`.
+
+O uptime e as estatísticas mudam após cada atualização do workflow. As referências das imagens incluem uma versão calculada a partir do conteúdo para evitar mostrar uma imagem antiga em cache. O agendamento do GitHub Actions pode sofrer atrasos; a execução manual permite atualizar quando necessário.

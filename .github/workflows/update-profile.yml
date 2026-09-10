@@ -8,7 +8,7 @@ on:
     branches: [main]
     paths:
       - profile.json
-      - scripts/update_profile.py
+      - 'scripts/*.py'
       - '**/avatar.txt'
       - assets/avatar-tones.json
       - .github/workflows/update-profile.yml
@@ -43,7 +43,7 @@ jobs:
         id: commit
         shell: bash
         run: |
-          git add -- README.md assets/neofetch.svg assets/neofetch-mobile.svg assets/stats.json
+          git add -- README.md assets/neofetch.svg assets/neofetch-mobile.svg assets/neofetch-still.svg assets/neofetch-mobile-still.svg assets/stats.json
           if git diff --cached --quiet; then
             echo 'changed=false' >> "$GITHUB_OUTPUT"
             exit 0

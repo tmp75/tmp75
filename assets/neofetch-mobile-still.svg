@@ -3330,10 +3330,6 @@
 <text x="246.667" y="318.976" fill="rgb(41,210,87)" textLength="6.667" lengthAdjust="spacingAndGlyphs">80</text>
 <text x="253.333" y="318.976" fill="rgb(18,149,60)" textLength="3.333" lengthAdjust="spacingAndGlyphs">t</text>
 </g>
-<g class="matrix-fd8a649e-motion">
-<use href="#matrix-fd8a649e-streams" opacity=".20"/>
-<g mask="url(#matrix-fd8a649e-portrait-mask)"><use href="#matrix-fd8a649e-streams" opacity=".74"/></g>
-</g>
 </g>
 </g>
 <text x="20" y="382" font-size="14.5" fill="#c8ffdc" font-weight="700">ax1r0n@github</text>
