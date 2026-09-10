@@ -94,12 +94,12 @@ def text(x, y, value, size=16, fill=FG, **attrs):
 
 
 def build_svg(config, stats, rows, avatar, mobile=False):
-    width = 460 if mobile else 1120
-    x = 26 if mobile else 518
-    right = width - 28
-    char = 8.1 if mobile else 9.6
-    font_size = 13.5 if mobile else 16
-    start_y = 495 if mobile else 100
+    width = 360 if mobile else 1120
+    x = 20 if mobile else 518
+    right = width - (20 if mobile else 28)
+    char = 8.7 if mobile else 9.6
+    font_size = 14.5 if mobile else 16
+    start_y = 435 if mobile else 100
     line = 24
     height = start_y + len(rows) * line + 65
     title = f'{config["display_name"]} — perfil de terminal'
@@ -113,10 +113,10 @@ def build_svg(config, stats, rows, avatar, mobile=False):
     for index, color in enumerate(['#b87f79', '#b8a477', '#83a18d']):
         chunks.append(f'<circle cx="{25+index*19}" cy="25" r="4.5" fill="{color}"/>')
     chunks.append(text(width/2, 30, f'~/{config["username"]}  —  neofetch', 12, DIM, text_anchor='middle'))
-    avatar_size = 7.2 if mobile else 9.9
-    avatar_x = 65 if mobile else 29
+    avatar_size = 6.5 if mobile else 9.9
+    avatar_x = 32 if mobile else 29
     avatar_y = 86 if mobile else 94
-    avatar_line = 8 if mobile else 11.5
+    avatar_line = 7 if mobile else 11.5
     for index, row in enumerate(avatar):
         chunks.append(text(avatar_x, round(avatar_y+index*avatar_line, 2), row,
                            avatar_size, '#aebbc9', letter_spacing='0'))
