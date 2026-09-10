@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="460" height="1040" viewBox="0 0 460 1040" role="img" aria-labelledby="title desc">
 <title id="title">ax1r0n — perfil de terminal</title>
-<desc id="desc">Platform: Windows; Uptime.GitHub: 4 anos, 2 meses, 19 dias; Host: VibeDeck; Kernel: Local project tools; Code.Projects: JavaScript; Web.Projects: HTML, CSS; Runtime: Node.js; Human: Português; GitHub: github.com/tmp75; Project: github.com/tmp75/vibedeck; Repos.Public: 2; Stars.Owned: 5; Followers: 0</desc>
+<desc id="desc">Platform: Windows; Uptime.GitHub: 4 anos, 2 meses, 19 dias; Host: VibeDeck; Kernel: Local project tools; Code.Projects: JavaScript; Web.Projects: HTML, CSS; Runtime: Node.js; Human: Português; GitHub: github.com/tmp75; Project: github.com/tmp75/vibedeck; Repos.Public: 3; Stars.Owned: 5; Followers: 0</desc>
 <rect x=".5" y=".5" width="459" height="1039" rx="12" fill="#161b22" stroke="#30363d"/>
 <path d="M1 49H459" stroke="#30363d"/>
 <g font-family="Consolas, 'Liberation Mono', Menlo, monospace" xml:space="preserve">
@@ -90,7 +90,7 @@
 <path d="M139.39999999999998 874H432" stroke="#46515e"/>
 <text x="26" y="903" font-size="13.5" fill="#c99c6b" >Repos.Public:</text>
 <text x="139.39999999999998" y="903" font-size="13.5" fill="#455160" >..................................</text>
-<text x="432" y="903" font-size="13.5" fill="#b7c7d9" text-anchor="end">2</text>
+<text x="432" y="903" font-size="13.5" fill="#b7c7d9" text-anchor="end">3</text>
 <text x="26" y="927" font-size="13.5" fill="#c99c6b" >Stars.Owned:</text>
 <text x="131.3" y="927" font-size="13.5" fill="#455160" >...................................</text>
 <text x="432" y="927" font-size="13.5" fill="#b7c7d9" text-anchor="end">5</text>
