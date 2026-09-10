@@ -16,7 +16,7 @@ Para gerar os ficheiros localmente, com Python 3.12:
 python scripts/update_profile.py --refresh
 ```
 
-Não são necessárias bibliotecas adicionais. A consulta usa a API pública do GitHub sem autenticação. O `GITHUB_TOKEN` é usado apenas para enviar o commit com os ficheiros gerados; não é enviado às consultas de estatísticas. O workflow guarda apenas o README, os dois SVGs e `assets/stats.json`, quando houver alterações. Se outro commit chegar antes do envio, o Git recusa sobrescrevê-lo; execute novamente o workflow.
+Não são necessárias bibliotecas adicionais. O Actions usa o `GITHUB_TOKEN` temporário para consultar a API do GitHub e enviar o commit, evitando o limite reduzido das consultas anónimas. O script consulta os endpoints públicos e exclui explicitamente repositórios privados das estatísticas; não guarda o token. Localmente, funciona sem token, dentro do limite de consultas anónimas. O workflow guarda apenas o README, os dois SVGs e `assets/stats.json`, quando houver alterações. Se outro commit chegar antes do envio, o Git recusa sobrescrevê-lo; execute novamente o workflow.
 
 ## Uptime
 

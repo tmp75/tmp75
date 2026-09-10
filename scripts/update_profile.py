@@ -33,12 +33,16 @@ def calendar_age(start, end):
 
 
 def get_json(endpoint):
-    # Never authenticate: public-repository and profile counts remain public-only.
-    req = Request('https://api.github.com/' + endpoint, headers={
+    headers = {
         'User-Agent': 'github-neofetch-profile',
         'Accept': 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
-    })
+    }
+    # The job's short-lived token avoids shared-runner anonymous rate limits.
+    token = os.environ.get('GITHUB_TOKEN')
+    if token:
+        headers['Authorization'] = 'Bearer ' + token
+    req = Request('https://api.github.com/' + endpoint, headers=headers)
     with urlopen(req, timeout=30) as response:
         return json.load(response)
 
@@ -49,7 +53,8 @@ def fetch_stats(username):
     page = 1
     while True:
         batch = get_json(f'users/{username}/repos?type=owner&per_page=100&page={page}')
-        repos.extend(batch)
+        repos.extend(r for r in batch if not r.get('private', False)
+                     and r.get('visibility', 'public') == 'public')
         if len(batch) < 100:
             break
         page += 1

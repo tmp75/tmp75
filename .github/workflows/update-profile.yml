@@ -35,6 +35,7 @@ jobs:
       - name: Refresh public profile data
         env:
           PROFILE_BIRTH_DATE: ${{ secrets.PROFILE_BIRTH_DATE }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/update_profile.py --refresh
 
       - name: Commit generated files
