@@ -10,6 +10,7 @@ on:
       - profile.json
       - scripts/update_profile.py
       - '**/avatar.txt'
+      - assets/avatar-tones.json
       - .github/workflows/update-profile.yml
 
 permissions:

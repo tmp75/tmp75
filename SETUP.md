@@ -2,9 +2,9 @@
 
 O GitHub mostra este README no perfil quando os ficheiros estão na raiz do repositório público `tmp75/tmp75`, na branch principal `main`.
 
-Edite `profile.json` para atualizar os textos e os dados que pretende apresentar. Use apenas informações que deseja tornar públicas. A arte do avatar está no ficheiro `avatar.txt` incluído em `assets`; pode substituir o seu conteúdo mantendo os espaços e as quebras de linha.
+Edite `profile.json` para atualizar os textos e os dados que pretende apresentar. Use apenas informações que deseja tornar públicas. A arte do avatar está no ficheiro `assets/avatar.txt`; `assets/avatar-tones.json` guarda o tom de cinzento de cada caractere. Os dois ficheiros devem ter as mesmas dimensões. Para usar um ASCII simples com uma só cor, substitua `avatar.txt` e remova `avatar-tones.json`.
 
-Nesta versão, `Host` e `Kernel` descrevem o VibeDeck, e os campos `Code.Projects` e `Web.Projects` mostram a stack desse projeto público. Pode substituí-los pela sua atuação profissional. `Stars.Owned` soma as estrelas dos seus repositórios públicos, excluindo forks; `Repos.Public` inclui todos os seus repositórios públicos, incluindo este perfil e forks.
+Nesta versão, `Host` e `Kernel` descrevem a criação por vibe coding com IA. Os campos `Stack.*` mostram as tecnologias dos projetos, sem indicar níveis de domínio individual. `Stars.Owned` soma as estrelas dos seus repositórios públicos, excluindo forks; `Repos.Public` inclui todos os seus repositórios públicos, incluindo este perfil e forks.
 
 ## Atualização
 
@@ -24,4 +24,4 @@ Sem data de nascimento, o uptime representa o tempo desde a criação da conta G
 
 O segredo evita guardar a data de nascimento no código, mas a idade exata publicada permite deduzi-la. Deixe este campo vazio se preferir apresentar apenas a idade da conta.
 
-Os ficheiros gerados são imagens estáticas: o uptime e as estatísticas mudam após cada atualização. O agendamento do GitHub Actions pode sofrer atrasos; a execução manual permite atualizar quando necessário.
+Os ficheiros gerados são imagens estáticas: o uptime e as estatísticas mudam após cada atualização. As referências das imagens incluem uma versão calculada a partir do conteúdo para evitar mostrar uma imagem antiga em cache. O agendamento do GitHub Actions pode sofrer atrasos; a execução manual permite atualizar quando necessário.
