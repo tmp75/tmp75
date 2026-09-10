@@ -1,0 +1,23 @@
+{
+  "username": "tmp75",
+  "display_name": "ax1r0n",
+  "birth_date": null,
+  "system": [
+    ["Platform", "Windows"],
+    ["Host", "VibeDeck"],
+    ["Kernel", "Local project tools"]
+  ],
+  "languages": [
+    ["Code.Projects", "JavaScript"],
+    ["Web.Projects", "HTML, CSS"],
+    ["Runtime", "Node.js"],
+    ["Human", "Português"]
+  ],
+  "contact": [
+    ["GitHub", "github.com/tmp75"],
+    ["Project", "github.com/tmp75/vibedeck"]
+  ],
+  "links": [
+    ["VibeDeck", "https://github.com/tmp75/vibedeck"]
+  ]
+}
