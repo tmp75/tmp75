@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1120" height="623" viewBox="0 0 1120 623" role="img" aria-labelledby="title desc">
 <title id="title">ax1r0n — terminal Matrix</title>
-<desc id="desc">Avatar em código verde com chuva Matrix. Platform: Omarchy; Uptime.GitHub: 4 anos, 2 meses, 20 dias; Host: Vibe coder · 100% vibe coding; Kernel: Ideias -&gt; IA -&gt; projetos; Stack.Code: Python, TypeScript, JavaScript; Stack.Web: HTML, CSS; Stack.UI: React, Next.js, Tailwind CSS; Stack.Tools: Node.js, Vite, Git; Stack.Tests: Playwright, Vitest; Human: Português; GitHub: github.com/tmp75; Project: github.com/tmp75/vibedeck; Repos.Public: 3; Stars.Owned: 5; Followers: 0</desc>
+<desc id="desc">Avatar em código verde com chuva Matrix. Platform: Omarchy; Uptime.GitHub: 4 anos, 2 meses, 21 dias; Host: Vibe coder · 100% vibe coding; Kernel: Ideias -&gt; IA -&gt; projetos; Stack.Code: Python, TypeScript, JavaScript; Stack.Web: HTML, CSS; Stack.UI: React, Next.js, Tailwind CSS; Stack.Tools: Node.js, Vite, Git; Stack.Tests: Playwright, Vitest; Human: Português; GitHub: github.com/tmp75; Project: github.com/tmp75/vibedeck; Repos.Public: 3; Stars.Owned: 5; Followers: 0</desc>
 <rect width="1120" height="623" fill="#020805"/>
 <g font-family="Consolas, 'Liberation Mono', Menlo, monospace" xml:space="preserve">
 <g transform="translate(29 87.5)" font-family="Consolas, Liberation Mono, Menlo, monospace" aria-hidden="true">
@@ -3343,7 +3343,7 @@
 <text x="1092" y="78" font-size="16" fill="#92f5b4" text-anchor="end">Omarchy</text>
 <text x="518" y="102" font-size="16" fill="#39ff88" >Uptime.GitHub:</text>
 <text x="662.0" y="102" font-size="16" fill="#195330" >...................</text>
-<text x="1092" y="102" font-size="16" fill="#92f5b4" text-anchor="end">4 anos, 2 meses, 20 dias</text>
+<text x="1092" y="102" font-size="16" fill="#92f5b4" text-anchor="end">4 anos, 2 meses, 21 dias</text>
 <text x="518" y="126" font-size="16" fill="#39ff88" >Host:</text>
 <text x="575.6" y="126" font-size="16" fill="#195330" >.......................</text>
 <text x="1092" y="126" font-size="16" fill="#92f5b4" text-anchor="end">Vibe coder · 100% vibe coding</text>
@@ -3395,6 +3395,6 @@
 <rect x="643" y="565" width="25" height="15" fill="#6effa2"/>
 <rect x="668" y="565" width="25" height="15" fill="#92f5b4"/>
 <rect x="693" y="565" width="25" height="15" fill="#c8ffdc"/>
-<text x="518" y="601" font-size="10" fill="#3b985c" >sync 2026-09-11 UTC</text>
+<text x="518" y="601" font-size="10" fill="#3b985c" >sync 2026-09-12 UTC</text>
 </g>
 </svg>
